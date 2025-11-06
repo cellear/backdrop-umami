@@ -9,6 +9,7 @@ stylesheets[all][] = css/base.css
 ; Layout
 stylesheets[all][] = css/layout/layout.css
 stylesheets[all][] = css/layout/layout-2-col.css
+stylesheets[all][] = css/homepage.css
 
 ; Components - Blocks
 stylesheets[all][] = css/components/blocks/page-title/page-title.css
