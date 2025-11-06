@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir:*)",
+      "Bash(composer require:*)",
+      "Bash(php:*)",
+      "Bash(ddev config:*)",
+      "Bash(ddev start:*)",
+      "Bash(ddev exec php:*)",
+      "Bash(ddev add-on:*)",
+      "Bash(ddev restart:*)",
+      "Bash(ddev bee:*)",
+      "Bash(ddev describe:*)",
+      "Bash(ddev mysql:*)",
+      "Bash(ddev logs:*)",
+      "Bash(wget:*)",
+      "Bash(curl:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
