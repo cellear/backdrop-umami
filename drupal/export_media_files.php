@@ -7,13 +7,16 @@
 use Drupal\Core\DrupalKernel;
 use Symfony\Component\HttpFoundation\Request;
 
-// Change to the web directory where Drupal is installed
+// Bootstrap Drupal
 chdir(__DIR__ . '/web');
-
 $autoloader = require_once __DIR__ . '/vendor/autoload.php';
-$kernel = DrupalKernel::createFromRequest(Request::createFromGlobals(), $autoloader, 'prod');
+
+$request = Request::createFromGlobals();
+$kernel = DrupalKernel::createFromRequest($request, $autoloader, 'prod');
 $kernel->boot();
-$kernel->prepareLegacyRequest(Request::createFromGlobals());
+
+// Set the container so \Drupal static methods work
+\Drupal::setContainer($kernel->getContainer());
 
 $media_storage = \Drupal::entityTypeManager()->getStorage('media');
 $media_items = $media_storage->loadMultiple();
