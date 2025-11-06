@@ -1,0 +1,632 @@
+
+
+<!-- THEME DEBUG -->
+<!-- CALL: theme('page') -->
+<!-- BEGIN OUTPUT from 'core/modules/system/templates/page.tpl.php' -->
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+<link rel="shortcut icon" href="https://umami-backdrop.ddev.site/core/misc/favicon.ico" type="image/vnd.microsoft.icon" />
+<link rel="alternate" type="application/rss+xml" title="Umami RSS" href="https://umami-backdrop.ddev.site/rss.xml" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="Generator" content="Backdrop CMS 1 (https://backdropcms.org)" />
+    <title>Umami</title>
+    <style media="all">
+@import url("https://umami-backdrop.ddev.site/core/misc/normalize.css?t5bu29");
+@import url("https://umami-backdrop.ddev.site/core/modules/system/css/system.css?t5bu29");
+@import url("https://umami-backdrop.ddev.site/core/modules/system/css/system.theme.css?t5bu29");
+@import url("https://umami-backdrop.ddev.site/core/modules/system/css/messages.theme.css?t5bu29");
+</style>
+<style media="all">
+@import url("https://umami-backdrop.ddev.site/core/modules/layout/css/grid-flexbox.css?t5bu29");
+</style>
+<style media="all">
+@import url("https://umami-backdrop.ddev.site/core/modules/comment/css/comment.css?t5bu29");
+@import url("https://umami-backdrop.ddev.site/core/modules/date/css/date.css?t5bu29");
+@import url("https://umami-backdrop.ddev.site/core/modules/user/css/user.css?t5bu29");
+@import url("https://umami-backdrop.ddev.site/core/modules/views/css/views.css?t5bu29");
+</style>
+<style media="all">
+@import url("https://umami-backdrop.ddev.site/core/modules/system/css/menu-dropdown.theme.css?t5bu29");
+@import url("https://umami-backdrop.ddev.site/core/modules/system/css/menu-toggle.theme.css?t5bu29");
+</style>
+<style media="all">
+@import url("https://umami-backdrop.ddev.site/themes/umami/css/base.css?t5bu29");
+@import url("https://umami-backdrop.ddev.site/themes/umami/css/layout/layout.css?t5bu29");
+@import url("https://umami-backdrop.ddev.site/themes/umami/css/layout/layout-2-col.css?t5bu29");
+@import url("https://umami-backdrop.ddev.site/themes/umami/css/homepage.css?t5bu29");
+@import url("https://umami-backdrop.ddev.site/themes/umami/css/components/blocks/page-title/page-title.css?t5bu29");
+@import url("https://umami-backdrop.ddev.site/themes/umami/css/components/blocks/search/search.css?t5bu29");
+@import url("https://umami-backdrop.ddev.site/themes/umami/css/components/content/full/node-full.css?t5bu29");
+@import url("https://umami-backdrop.ddev.site/themes/umami/css/components/content-types/recipe/recipe.css?t5bu29");
+@import url("https://umami-backdrop.ddev.site/themes/umami/css/components/fields/field.css?t5bu29");
+@import url("https://umami-backdrop.ddev.site/themes/umami/css/components/fields/ingredients.css?t5bu29");
+@import url("https://umami-backdrop.ddev.site/themes/umami/css/components/fields/recipe-instruction.css?t5bu29");
+@import url("https://umami-backdrop.ddev.site/themes/umami/css/components/fields/summary.css?t5bu29");
+@import url("https://umami-backdrop.ddev.site/themes/umami/css/components/forms/form.css?t5bu29");
+@import url("https://umami-backdrop.ddev.site/themes/umami/css/components/forms/form-items.css?t5bu29");
+@import url("https://umami-backdrop.ddev.site/themes/umami/css/components/forms/buttons.css?t5bu29");
+@import url("https://umami-backdrop.ddev.site/themes/umami/css/components/messages/messages.css?t5bu29");
+@import url("https://umami-backdrop.ddev.site/themes/umami/css/components/navigation/breadcrumbs/breadcrumbs.css?t5bu29");
+@import url("https://umami-backdrop.ddev.site/themes/umami/css/components/navigation/menu-main/menu-main.css?t5bu29");
+@import url("https://umami-backdrop.ddev.site/themes/umami/css/components/navigation/menu-footer/menu-footer.css?t5bu29");
+@import url("https://umami-backdrop.ddev.site/themes/umami/css/components/navigation/menu-account/menu-account.css?t5bu29");
+@import url("https://umami-backdrop.ddev.site/themes/umami/css/components/navigation/tabs/tabs.css?t5bu29");
+@import url("https://umami-backdrop.ddev.site/themes/umami/css/components/regions/header/header.css?t5bu29");
+@import url("https://umami-backdrop.ddev.site/themes/umami/css/components/regions/footer/footer.css?t5bu29");
+@import url("https://umami-backdrop.ddev.site/themes/umami/css/components/regions/highlighted/highlighted.css?t5bu29");
+@import url("https://umami-backdrop.ddev.site/themes/umami/css/components/views/frontpage.css?t5bu29");
+@import url("https://umami-backdrop.ddev.site/themes/umami/css/components/views/promoted-items.css?t5bu29");
+@import url("https://umami-backdrop.ddev.site/themes/umami/css/classy/components/button.css?t5bu29");
+@import url("https://umami-backdrop.ddev.site/themes/umami/css/classy/components/breadcrumb.css?t5bu29");
+@import url("https://umami-backdrop.ddev.site/themes/umami/css/classy/components/links.css?t5bu29");
+@import url("https://umami-backdrop.ddev.site/themes/umami/css/classy/components/menu.css?t5bu29");
+@import url("https://umami-backdrop.ddev.site/themes/umami/css/classy/components/node.css?t5bu29");
+</style>
+<style media="all">
+@import url("https://umami-backdrop.ddev.site/themes/umami/css/classy/components/pager.css?t5bu29");
+</style>
+<style media="screen">
+@import url("https://umami-backdrop.ddev.site/core/misc/smartmenus/css/sm-core-css.css?t5bu29");
+</style>
+    <script>window.Backdrop = {settings: {"basePath":"\/","pathPrefix":"","drupalCompatibility":true,"ajaxPageState":{"theme":"umami","theme_token":"EfIdDo-2Pu5Qi-jEAzb7NYjqxJmWlrlpFS9KpjbrLO8","css":{"core\/misc\/normalize.css":1,"core\/modules\/system\/css\/system.css":1,"core\/modules\/system\/css\/system.theme.css":1,"core\/modules\/system\/css\/messages.theme.css":1,"core\/modules\/layout\/css\/grid-flexbox.css":1,"core\/modules\/comment\/css\/comment.css":1,"core\/modules\/date\/css\/date.css":1,"core\/modules\/field\/css\/field.css":1,"core\/modules\/search\/search.theme.css":1,"core\/modules\/user\/css\/user.css":1,"core\/modules\/views\/css\/views.css":1,"core\/layouts\/moscone_flipped\/moscone-flipped.css":1,"core\/modules\/system\/css\/menu-dropdown.theme.css":1,"core\/modules\/system\/css\/menu-toggle.theme.css":1,"themes\/umami\/css\/base.css":1,"themes\/umami\/css\/layout\/layout.css":1,"themes\/umami\/css\/layout\/layout-2-col.css":1,"themes\/umami\/css\/homepage.css":1,"themes\/umami\/css\/components\/blocks\/page-title\/page-title.css":1,"themes\/umami\/css\/components\/blocks\/search\/search.css":1,"themes\/umami\/css\/components\/content\/node.css":1,"themes\/umami\/css\/components\/content\/full\/node-full.css":1,"themes\/umami\/css\/components\/content-types\/recipe\/recipe.css":1,"themes\/umami\/css\/components\/fields\/field.css":1,"themes\/umami\/css\/components\/fields\/ingredients.css":1,"themes\/umami\/css\/components\/fields\/recipe-instruction.css":1,"themes\/umami\/css\/components\/fields\/summary.css":1,"themes\/umami\/css\/components\/forms\/form.css":1,"themes\/umami\/css\/components\/forms\/form-items.css":1,"themes\/umami\/css\/components\/forms\/buttons.css":1,"themes\/umami\/css\/components\/messages\/messages.css":1,"themes\/umami\/css\/components\/navigation\/breadcrumbs\/breadcrumbs.css":1,"themes\/umami\/css\/components\/navigation\/menu-main\/menu-main.css":1,"themes\/umami\/css\/components\/navigation\/menu-footer\/menu-footer.css":1,"themes\/umami\/css\/components\/navigation\/menu-account\/menu-account.css":1,"themes\/umami\/css\/components\/navigation\/tabs\/tabs.css":1,"themes\/umami\/css\/components\/regions\/header\/header.css":1,"themes\/umami\/css\/components\/regions\/footer\/footer.css":1,"themes\/umami\/css\/components\/regions\/highlighted\/highlighted.css":1,"themes\/umami\/css\/components\/views\/frontpage.css":1,"themes\/umami\/css\/components\/views\/promoted-items.css":1,"themes\/umami\/css\/classy\/components\/button.css":1,"themes\/umami\/css\/classy\/components\/breadcrumb.css":1,"themes\/umami\/css\/classy\/components\/links.css":1,"themes\/umami\/css\/classy\/components\/menu.css":1,"themes\/umami\/css\/classy\/components\/node.css":1,"themes\/umami\/css\/classy\/components\/pager.css":1,"core\/misc\/smartmenus\/css\/sm-core-css.css":1},"js":{"core\/misc\/jquery.js":1,"core\/misc\/jquery.once.js":1,"core\/misc\/backdrop.js":1,"core\/modules\/layout\/js\/grid-fallback.js":1,"core\/misc\/smartmenus\/jquery.smartmenus.js":1,"core\/misc\/smartmenus\/addons\/keyboard\/jquery.smartmenus.keyboard.js":1,"core\/modules\/system\/js\/menus.js":1,"themes\/umami\/js\/umami.js":1}}}};</script>
+<script src="https://umami-backdrop.ddev.site/core/misc/jquery.js?v=3.7.1"></script>
+<script src="https://umami-backdrop.ddev.site/core/misc/jquery.once.js?v=1.2.6"></script>
+<script src="https://umami-backdrop.ddev.site/core/misc/backdrop.js?v=1.33.x-dev"></script>
+<script src="https://umami-backdrop.ddev.site/core/modules/layout/js/grid-fallback.js?v=1.33.x-dev"></script>
+<script src="https://umami-backdrop.ddev.site/core/misc/smartmenus/jquery.smartmenus.js?v=1.0.0"></script>
+<script src="https://umami-backdrop.ddev.site/core/misc/smartmenus/addons/keyboard/jquery.smartmenus.keyboard.js?v=1.0.0"></script>
+<script src="https://umami-backdrop.ddev.site/core/modules/system/js/menus.js?v=1.33.x-dev"></script>
+<script src="https://umami-backdrop.ddev.site/themes/umami/js/umami.js?t5bu29"></script>
+  </head>
+  <body class="page front">
+    
+
+<!-- THEME DEBUG -->
+<!-- CALL: theme('layout__moscone_flipped') -->
+<!-- FILE NAME SUGGESTIONS:
+   x layout--moscone-flipped.tpl.php
+   * layout.tpl.php
+-->
+<!-- BEGIN OUTPUT from 'core/layouts/moscone_flipped/layout--moscone-flipped.tpl.php' -->
+<div class="layout--moscone-flipped layout">
+  <div id="skip-link">
+    <a href="#main-content" class="element-invisible element-focusable">Skip to main content</a>
+  </div>
+
+      <header class="l-header" role="banner" aria-label="Site header">
+      <div class="l-header-inner container container-fluid">
+        
+
+<!-- THEME DEBUG -->
+<!-- CALL: theme('block__system__header') -->
+<!-- FILE NAME SUGGESTIONS:
+   * block--system--header.tpl.php
+   * block--system.tpl.php
+   * block--system:header.tpl.php
+   x block.tpl.php
+-->
+<!-- BEGIN OUTPUT from 'core/modules/layout/templates/block.tpl.php' -->
+<div class="block block-system-header">
+
+
+  <div class="block-content">
+    
+
+<!-- THEME DEBUG -->
+<!-- CALL: theme('header') -->
+<!-- BEGIN OUTPUT from 'core/modules/system/templates/header.tpl.php' -->
+
+  <div class="name-and-slogan">
+                  <h1 class="site-name">
+          <a href="/" title="Home" rel="home"><span>Umami</span></a>
+        </h1>
+                </div> <!-- /#name-and-slogan -->
+
+  <nav class="header-menu">
+    <ul class="links"><li class="menu-364 odd first last"><a href="/user/login">Login</a></li></ul>  </nav>
+
+<!-- END OUTPUT from 'core/modules/system/templates/header.tpl.php' -->
+
+  </div>
+</div>
+
+<!-- END OUTPUT from 'core/modules/layout/templates/block.tpl.php' -->
+
+
+
+<!-- THEME DEBUG -->
+<!-- CALL: theme('block__system__main_menu') -->
+<!-- FILE NAME SUGGESTIONS:
+   * block--system--main-menu.tpl.php
+   * block--system.tpl.php
+   * block--system:main-menu.tpl.php
+   x block.tpl.php
+-->
+<!-- BEGIN OUTPUT from 'core/modules/layout/templates/block.tpl.php' -->
+<div class="block block-system-main-menu block-menu" role="navigation">
+
+
+  <div class="block-content">
+    <input id="menu-toggle-state" class="menu-toggle-state element-invisible" type="checkbox" aria-controls="menu-toggle-state" /><label class="menu-toggle-button" for="menu-toggle-state"><span class="menu-toggle-button-icon"></span><span class="menu-toggle-button-text">Menu</span><span class="menu-toggle-assistive-text element-invisible">Toggle menu visibility</span></label><ul class="menu-dropdown menu" data-menu-style="dropdown" data-clickdown="" data-collapse="default" data-menu-toggle-id="menu-toggle-state"><li class="first last leaf menu-mlid-363"><a href="/" class="active" aria-current="page">Home</a></li>
+</ul>  </div>
+</div>
+
+<!-- END OUTPUT from 'core/modules/layout/templates/block.tpl.php' -->
+
+      </div>
+    </header>
+  
+  <div class="l-wrapper">
+    <div class="l-wrapper-inner container container-fluid">
+
+      
+      <div class="l-page-title">
+        <a id="main-content"></a>
+                              </div>
+
+      
+      
+              <div class="l-top">
+          
+
+<!-- THEME DEBUG -->
+<!-- CALL: theme('block__system__page_components') -->
+<!-- FILE NAME SUGGESTIONS:
+   * block--system--page-components.tpl.php
+   * block--system.tpl.php
+   * block--system:page-components:title-combo.tpl.php
+   x block.tpl.php
+-->
+<!-- BEGIN OUTPUT from 'core/modules/layout/templates/block.tpl.php' -->
+<div class="block block-system-title-combo">
+
+
+  <div class="block-content">
+    
+
+<!-- THEME DEBUG -->
+<!-- CALL: theme('page_components') -->
+<!-- FILE NAME SUGGESTIONS:
+   * page-components--title-combo.tpl.php
+   x page-components.tpl.php
+-->
+<!-- BEGIN OUTPUT from 'core/modules/system/templates/page-components.tpl.php' -->
+
+
+
+
+<!-- END OUTPUT from 'core/modules/system/templates/page-components.tpl.php' -->
+
+  </div>
+</div>
+
+<!-- END OUTPUT from 'core/modules/layout/templates/block.tpl.php' -->
+
+        </div>
+      
+      <div class="l-middle row">
+        <main class="l-content col-md-9" role="main" aria-label="Main content">
+          
+
+<!-- THEME DEBUG -->
+<!-- CALL: theme('block__system__main') -->
+<!-- FILE NAME SUGGESTIONS:
+   x block--system--main.tpl.php
+   * block--system.tpl.php
+   * block--system:main.tpl.php
+   * block.tpl.php
+-->
+<!-- BEGIN OUTPUT from 'core/modules/system/templates/block--system--main.tpl.php' -->
+
+
+<!-- THEME DEBUG -->
+<!-- CALL: theme('node') -->
+<!-- FILE NAME SUGGESTIONS:
+   * node--80--teaser.tpl.php
+   * node--80.tpl.php
+   * node--article--teaser.tpl.php
+   * node--article.tpl.php
+   x node.tpl.php
+-->
+<!-- BEGIN OUTPUT from 'themes/umami/templates/node.tpl.php' -->
+<article>
+
+  
+
+<!-- THEME DEBUG -->
+<!-- CALL: theme('user_picture') -->
+<!-- BEGIN OUTPUT from 'core/modules/user/templates/user-picture.tpl.php' -->
+
+<!-- END OUTPUT from 'core/modules/user/templates/user-picture.tpl.php' -->
+
+
+      <h2>
+      <a href="/article/give-your-oatmeal-the-ultimate-makeover">Give your oatmeal the ultimate makeover</a>
+    </h2>
+  
+      <div class="submitted">
+      Tue, 04/11/2025 - 4:48pm by admin    </div>
+  
+  <div class="content">
+    <div class="field field-name-field-media-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://umami-backdrop.ddev.site/files/oatmeal-fruit-syrup-topping.jpg" alt="Oatmeal topped with a vibrant mix of berries, nuts, and seeds" /></div></div></div>  </div>
+
+  <ul class="links inline"><li class="node-readmore odd first last"><a href="/article/give-your-oatmeal-the-ultimate-makeover" rel="tag" title="Give your oatmeal the ultimate makeover">Read more<span class="element-invisible"> about Give your oatmeal the ultimate makeover</span></a></li></ul>  
+</article>
+
+<!-- END OUTPUT from 'themes/umami/templates/node.tpl.php' -->
+
+
+
+<!-- THEME DEBUG -->
+<!-- CALL: theme('node') -->
+<!-- FILE NAME SUGGESTIONS:
+   * node--79--teaser.tpl.php
+   * node--79.tpl.php
+   * node--article--teaser.tpl.php
+   * node--article.tpl.php
+   x node.tpl.php
+-->
+<!-- BEGIN OUTPUT from 'themes/umami/templates/node.tpl.php' -->
+<article>
+
+  
+
+<!-- THEME DEBUG -->
+<!-- CALL: theme('user_picture') -->
+<!-- BEGIN OUTPUT from 'core/modules/user/templates/user-picture.tpl.php' -->
+
+<!-- END OUTPUT from 'core/modules/user/templates/user-picture.tpl.php' -->
+
+
+      <h2>
+      <a href="/article/skip-the-spirits-with-delicious-mocktails">Skip the spirits with delicious mocktails</a>
+    </h2>
+  
+      <div class="submitted">
+      Mon, 03/11/2025 - 4:48pm by admin    </div>
+  
+  <div class="content">
+    <div class="field field-name-field-media-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://umami-backdrop.ddev.site/files/mojito-mocktail.jpg" alt="Fresh mojito mocktail with garnish of mint leaves, ice, and sliced lime" /></div></div></div>  </div>
+
+  <ul class="links inline"><li class="node-readmore odd first last"><a href="/article/skip-the-spirits-with-delicious-mocktails" rel="tag" title="Skip the spirits with delicious mocktails">Read more<span class="element-invisible"> about Skip the spirits with delicious mocktails</span></a></li></ul>  
+</article>
+
+<!-- END OUTPUT from 'themes/umami/templates/node.tpl.php' -->
+
+
+
+<!-- THEME DEBUG -->
+<!-- CALL: theme('node') -->
+<!-- FILE NAME SUGGESTIONS:
+   * node--78--teaser.tpl.php
+   * node--78.tpl.php
+   * node--article--teaser.tpl.php
+   * node--article.tpl.php
+   x node.tpl.php
+-->
+<!-- BEGIN OUTPUT from 'themes/umami/templates/node.tpl.php' -->
+<article>
+
+  
+
+<!-- THEME DEBUG -->
+<!-- CALL: theme('user_picture') -->
+<!-- BEGIN OUTPUT from 'core/modules/user/templates/user-picture.tpl.php' -->
+
+<!-- END OUTPUT from 'core/modules/user/templates/user-picture.tpl.php' -->
+
+
+      <h2>
+      <a href="/article/baking-mishaps-our-troubleshooting-tips">Baking mishaps - our troubleshooting tips</a>
+    </h2>
+  
+      <div class="submitted">
+      Sun, 02/11/2025 - 4:48pm by admin    </div>
+  
+  <div class="content">
+    <div class="field field-name-field-media-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://umami-backdrop.ddev.site/files/chocolate-brownie-umami.jpg" alt="A delicious chocolate brownie" /></div></div></div>  </div>
+
+  <ul class="links inline"><li class="node-readmore odd first last"><a href="/article/baking-mishaps-our-troubleshooting-tips" rel="tag" title="Baking mishaps - our troubleshooting tips">Read more<span class="element-invisible"> about Baking mishaps - our troubleshooting tips</span></a></li></ul>  
+</article>
+
+<!-- END OUTPUT from 'themes/umami/templates/node.tpl.php' -->
+
+
+
+<!-- THEME DEBUG -->
+<!-- CALL: theme('node') -->
+<!-- FILE NAME SUGGESTIONS:
+   * node--77--teaser.tpl.php
+   * node--77.tpl.php
+   * node--article--teaser.tpl.php
+   * node--article.tpl.php
+   x node.tpl.php
+-->
+<!-- BEGIN OUTPUT from 'themes/umami/templates/node.tpl.php' -->
+<article>
+
+  
+
+<!-- THEME DEBUG -->
+<!-- CALL: theme('user_picture') -->
+<!-- BEGIN OUTPUT from 'core/modules/user/templates/user-picture.tpl.php' -->
+
+<!-- END OUTPUT from 'core/modules/user/templates/user-picture.tpl.php' -->
+
+
+      <h2>
+      <a href="/article/lets-hear-it-for-carrots">Let&#039;s hear it for carrots</a>
+    </h2>
+  
+      <div class="submitted">
+      Sat, 01/11/2025 - 4:48pm by admin    </div>
+  
+  <div class="content">
+    <div class="field field-name-field-media-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://umami-backdrop.ddev.site/files/heritage-carrots.jpg" alt="Purple, orange, yellow and white heritage carrots" /></div></div></div>  </div>
+
+  <ul class="links inline"><li class="node-readmore odd first last"><a href="/article/lets-hear-it-for-carrots" rel="tag" title="Let&#039;s hear it for carrots">Read more<span class="element-invisible"> about Let&#039;s hear it for carrots</span></a></li></ul>  
+</article>
+
+<!-- END OUTPUT from 'themes/umami/templates/node.tpl.php' -->
+
+
+
+<!-- THEME DEBUG -->
+<!-- CALL: theme('node') -->
+<!-- FILE NAME SUGGESTIONS:
+   * node--76--teaser.tpl.php
+   * node--76.tpl.php
+   * node--article--teaser.tpl.php
+   * node--article.tpl.php
+   x node.tpl.php
+-->
+<!-- BEGIN OUTPUT from 'themes/umami/templates/node.tpl.php' -->
+<article>
+
+  
+
+<!-- THEME DEBUG -->
+<!-- CALL: theme('user_picture') -->
+<!-- BEGIN OUTPUT from 'core/modules/user/templates/user-picture.tpl.php' -->
+
+<!-- END OUTPUT from 'core/modules/user/templates/user-picture.tpl.php' -->
+
+
+      <h2>
+      <a href="/article/the-umami-guide-to-our-favorite-mushrooms">The Umami guide to our favorite mushrooms</a>
+    </h2>
+  
+      <div class="submitted">
+      Fri, 31/10/2025 - 4:48pm by admin    </div>
+  
+  <div class="content">
+    <div class="field field-name-field-media-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://umami-backdrop.ddev.site/files/mushrooms-umami.jpg" alt="A delightful selection of mushroom varieties laid out on a simple wooden plate" /></div></div></div>  </div>
+
+  <ul class="links inline"><li class="node-readmore odd first last"><a href="/article/the-umami-guide-to-our-favorite-mushrooms" rel="tag" title="The Umami guide to our favorite mushrooms">Read more<span class="element-invisible"> about The Umami guide to our favorite mushrooms</span></a></li></ul>  
+</article>
+
+<!-- END OUTPUT from 'themes/umami/templates/node.tpl.php' -->
+
+
+
+<!-- THEME DEBUG -->
+<!-- CALL: theme('node') -->
+<!-- FILE NAME SUGGESTIONS:
+   * node--75--teaser.tpl.php
+   * node--75.tpl.php
+   * node--article--teaser.tpl.php
+   * node--article.tpl.php
+   x node.tpl.php
+-->
+<!-- BEGIN OUTPUT from 'themes/umami/templates/node.tpl.php' -->
+<article>
+
+  
+
+<!-- THEME DEBUG -->
+<!-- CALL: theme('user_picture') -->
+<!-- BEGIN OUTPUT from 'core/modules/user/templates/user-picture.tpl.php' -->
+
+<!-- END OUTPUT from 'core/modules/user/templates/user-picture.tpl.php' -->
+
+
+      <h2>
+      <a href="/article/the-real-deal-for-supermarket-savvy-shopping">The real deal for supermarket savvy shopping</a>
+    </h2>
+  
+      <div class="submitted">
+      Thu, 30/10/2025 - 4:48pm by admin    </div>
+  
+  <div class="content">
+    <div class="field field-name-field-media-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://umami-backdrop.ddev.site/files/supermarket-savvy-umami.jpg" alt="Leafy greens presented on supermarket produce shelving" /></div></div></div>  </div>
+
+  <ul class="links inline"><li class="node-readmore odd first last"><a href="/article/the-real-deal-for-supermarket-savvy-shopping" rel="tag" title="The real deal for supermarket savvy shopping">Read more<span class="element-invisible"> about The real deal for supermarket savvy shopping</span></a></li></ul>  
+</article>
+
+<!-- END OUTPUT from 'themes/umami/templates/node.tpl.php' -->
+
+
+
+<!-- THEME DEBUG -->
+<!-- CALL: theme('node') -->
+<!-- FILE NAME SUGGESTIONS:
+   * node--74--teaser.tpl.php
+   * node--74.tpl.php
+   * node--article--teaser.tpl.php
+   * node--article.tpl.php
+   x node.tpl.php
+-->
+<!-- BEGIN OUTPUT from 'themes/umami/templates/node.tpl.php' -->
+<article>
+
+  
+
+<!-- THEME DEBUG -->
+<!-- CALL: theme('user_picture') -->
+<!-- BEGIN OUTPUT from 'core/modules/user/templates/user-picture.tpl.php' -->
+
+<!-- END OUTPUT from 'core/modules/user/templates/user-picture.tpl.php' -->
+
+
+      <h2>
+      <a href="/article/dairy-free-and-delicious-milk-chocolate">Dairy-free and delicious milk chocolate</a>
+    </h2>
+  
+      <div class="submitted">
+      Wed, 29/10/2025 - 4:48pm by admin    </div>
+  
+  <div class="content">
+    <div class="field field-name-field-media-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://umami-backdrop.ddev.site/files/vegan-chocolate.jpg" alt="A delicious bar of dairy-free milk chocolate, broken into pieces" /></div></div></div>  </div>
+
+  <ul class="links inline"><li class="node-readmore odd first last"><a href="/article/dairy-free-and-delicious-milk-chocolate" rel="tag" title="Dairy-free and delicious milk chocolate">Read more<span class="element-invisible"> about Dairy-free and delicious milk chocolate</span></a></li></ul>  
+</article>
+
+<!-- END OUTPUT from 'themes/umami/templates/node.tpl.php' -->
+
+
+
+<!-- THEME DEBUG -->
+<!-- CALL: theme('node') -->
+<!-- FILE NAME SUGGESTIONS:
+   * node--73--teaser.tpl.php
+   * node--73.tpl.php
+   * node--article--teaser.tpl.php
+   * node--article.tpl.php
+   x node.tpl.php
+-->
+<!-- BEGIN OUTPUT from 'themes/umami/templates/node.tpl.php' -->
+<article>
+
+  
+
+<!-- THEME DEBUG -->
+<!-- CALL: theme('user_picture') -->
+<!-- BEGIN OUTPUT from 'core/modules/user/templates/user-picture.tpl.php' -->
+
+<!-- END OUTPUT from 'core/modules/user/templates/user-picture.tpl.php' -->
+
+
+      <h2>
+      <a href="/article/give-it-a-go-and-grow-your-own-herbs">Give it a go and grow your own herbs</a>
+    </h2>
+  
+      <div class="submitted">
+      Tue, 28/10/2025 - 4:48pm by admin    </div>
+  
+  <div class="content">
+    <div class="field field-name-field-media-image field-type-image field-label-hidden"><div class="field-items"><div class="field-item even"><img src="https://umami-backdrop.ddev.site/files/home-grown-herbs.jpg" alt="Fresh cut herbs including mint, parsley, thyme and dill" /></div></div></div>  </div>
+
+  <ul class="links inline"><li class="node-readmore odd first last"><a href="/article/give-it-a-go-and-grow-your-own-herbs" rel="tag" title="Give it a go and grow your own herbs">Read more<span class="element-invisible"> about Give it a go and grow your own herbs</span></a></li></ul>  
+</article>
+
+<!-- END OUTPUT from 'themes/umami/templates/node.tpl.php' -->
+
+
+
+<!-- THEME DEBUG -->
+<!-- CALL: theme('node') -->
+<!-- FILE NAME SUGGESTIONS:
+   * node--72--teaser.tpl.php
+   * node--72.tpl.php
+   * node--recipe--teaser.tpl.php
+   x node--recipe.tpl.php
+   * node.tpl.php
+-->
+<!-- BEGIN OUTPUT from 'themes/umami/templates/node--recipe.tpl.php' -->
+<article>
+
+      <h2>
+      <a href="/recipe/borscht-with-pork-ribs">Borscht with pork ribs</a>
+    </h2>
+  
+      <div class="node__meta">
+      Mon, 27/10/2025 - 4:48pm by admin    </div>
+  
+  <div class="node__content">
+      </div>
+
+      <div class="node__links">
+      <ul class="links inline"><li class="node-readmore odd first last"><a href="/recipe/borscht-with-pork-ribs" rel="tag" title="Borscht with pork ribs">Read more<span class="element-invisible"> about Borscht with pork ribs</span></a></li></ul>    </div>
+  
+</article>
+
+<!-- END OUTPUT from 'themes/umami/templates/node--recipe.tpl.php' -->
+
+
+
+<!-- THEME DEBUG -->
+<!-- CALL: theme('node') -->
+<!-- FILE NAME SUGGESTIONS:
+   * node--71--teaser.tpl.php
+   * node--71.tpl.php
+   * node--recipe--teaser.tpl.php
+   x node--recipe.tpl.php
+   * node.tpl.php
+-->
+<!-- BEGIN OUTPUT from 'themes/umami/templates/node--recipe.tpl.php' -->
+<article>
+
+      <h2>
+      <a href="/recipe/fiery-chili-sauce">Fiery chili sauce</a>
+    </h2>
+  
+      <div class="node__meta">
+      Sun, 26/10/2025 - 4:48pm by admin    </div>
+  
+  <div class="node__content">
+      </div>
+
+      <div class="node__links">
+      <ul class="links inline"><li class="node-readmore odd first last"><a href="/recipe/fiery-chili-sauce" rel="tag" title="Fiery chili sauce">Read more<span class="element-invisible"> about Fiery chili sauce</span></a></li></ul>    </div>
+  
+</article>
+
+<!-- END OUTPUT from 'themes/umami/templates/node--recipe.tpl.php' -->
+
+<h2 class="element-invisible">Pages</h2><div class="item-list"><ul class="pager"><li class="pager-current odd first">1</li><li class="pager-item even"><a title="Go to page 2" href="/node?page=1">2</a></li><li class="pager-next odd"><a title="Go to next page" href="/node?page=1">next ›</a></li><li class="pager-last even last"><a title="Go to last page" href="/node?page=1">last »</a></li></ul></div>
+<!-- END OUTPUT from 'core/modules/system/templates/block--system--main.tpl.php' -->
+
+        </main>
+        <div class="l-sidebar l-sidebar-first col-md-3">
+                  </div>
+      </div><!-- /.l-middle -->
+
+      
+    </div><!-- /.l-wrapper-inner -->
+  </div><!-- /.l-wrapper -->
+
+      <footer class="l-footer">
+      <div class="l-footer-inner container container-fluid">
+        
+
+<!-- THEME DEBUG -->
+<!-- CALL: theme('block__system__powered_by') -->
+<!-- FILE NAME SUGGESTIONS:
+   * block--system--powered-by.tpl.php
+   * block--system.tpl.php
+   * block--system:powered-by.tpl.php
+   x block.tpl.php
+-->
+<!-- BEGIN OUTPUT from 'core/modules/layout/templates/block.tpl.php' -->
+<div class="block block-system-powered-by" role="complementary">
+
+
+  <div class="block-content">
+    <span>Powered by <a href="https://backdropcms.org">Backdrop CMS</a></span>  </div>
+</div>
+
+<!-- END OUTPUT from 'core/modules/layout/templates/block.tpl.php' -->
+
+      </div>
+    </footer>
+  </div><!-- /.layout--moscone-flipped -->
+
+<!-- END OUTPUT from 'core/layouts/moscone_flipped/layout--moscone-flipped.tpl.php' -->
+
+          </body>
+</html>
+
+<!-- END OUTPUT from 'core/modules/system/templates/page.tpl.php' -->
+
