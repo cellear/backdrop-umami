@@ -12,6 +12,13 @@ foreach ($terms as $term) {
   $taxonomy_mapping[$term->vocabulary][$term->name] = $term->tid;
 }
 
+// Load media file mappings
+$media_files = json_decode(file_get_contents(__DIR__ . '/media_files.json'), TRUE);
+$media_mapping = array();
+foreach ($media_files as $media) {
+  $media_mapping[$media['mid']] = $media;
+}
+
 // Import nodes from JSON
 $nodes_data = json_decode(file_get_contents(__DIR__ . '/nodes.json'), TRUE);
 
@@ -50,56 +57,63 @@ foreach ($nodes_data as $node_data) {
       }
     }
     elseif ($field_name == 'field_media_image') {
-      // Create placeholder file entries for images
-      // This will create broken image links that can be fixed by copying actual files
+      // Create file entries for images using real filenames from Drupal
       if (!empty($field_values[0]['target_id'])) {
         $media_id = $field_values[0]['target_id'];
 
-        // Create a placeholder file record
-        $file = new stdClass();
-        $file->uid = 1;
-        $file->filename = "image-{$media_id}.jpg";
-        $file->uri = "public://umami-images/image-{$media_id}.jpg";
-        $file->filemime = 'image/jpeg';
-        $file->filesize = 0; // Placeholder
-        $file->status = FILE_STATUS_PERMANENT;
-        $file->timestamp = REQUEST_TIME;
+        // Look up the media file info
+        if (isset($media_mapping[$media_id])) {
+          $media_info = $media_mapping[$media_id];
+          $file_info = $media_info['file'];
 
-        // Check if file already exists
-        $existing = db_select('file_managed', 'f')
-          ->fields('f', array('fid'))
-          ->condition('uri', $file->uri)
-          ->execute()
-          ->fetchField();
+          // Create a file record with the real filename
+          $file = new stdClass();
+          $file->uid = 1;
+          $file->filename = $file_info['filename'];
+          $file->uri = 'public://' . $file_info['filename'];
+          $file->filemime = $file_info['filemime'];
+          $file->filesize = 0; // Will be updated when actual file is copied
+          $file->status = FILE_STATUS_PERMANENT;
+          $file->timestamp = REQUEST_TIME;
 
-        if ($existing) {
-          $fid = $existing;
-        } else {
-          // Save the file record
-          $fid = db_insert('file_managed')
-            ->fields(array(
-              'uid' => $file->uid,
-              'filename' => $file->filename,
-              'uri' => $file->uri,
-              'filemime' => $file->filemime,
-              'filesize' => $file->filesize,
-              'status' => $file->status,
-              'timestamp' => $file->timestamp,
-            ))
-            ->execute();
-        }
+          // Check if file already exists
+          $existing = db_select('file_managed', 'f')
+            ->fields('f', array('fid'))
+            ->condition('uri', $file->uri)
+            ->execute()
+            ->fetchField();
 
-        // Attach to node
-        $node->{$field_name} = array(
-          LANGUAGE_NONE => array(
-            array(
-              'fid' => $fid,
-              'alt' => $node_data['title'], // Use node title as alt text
-              'title' => '',
+          if ($existing) {
+            $fid = $existing;
+          } else {
+            // Save the file record
+            $fid = db_insert('file_managed')
+              ->fields(array(
+                'uid' => $file->uid,
+                'filename' => $file->filename,
+                'uri' => $file->uri,
+                'filemime' => $file->filemime,
+                'filesize' => $file->filesize,
+                'status' => $file->status,
+                'timestamp' => $file->timestamp,
+              ))
+              ->execute();
+          }
+
+          // Attach to node with proper alt text
+          $node->{$field_name} = array(
+            LANGUAGE_NONE => array(
+              array(
+                'fid' => $fid,
+                'alt' => $media_info['alt'] ?: $node_data['title'],
+                'title' => $media_info['title'] ?: '',
+              ),
             ),
-          ),
-        );
-        echo "Added placeholder image for node {$node_data['title']} (media ID: {$media_id}, fid: {$fid})\n";
+          );
+          echo "Added image {$file_info['filename']} for node {$node_data['title']} (fid: {$fid})\n";
+        } else {
+          echo "Warning: Media ID {$media_id} not found in media mapping for node {$node_data['title']}\n";
+        }
       }
     }
     elseif ($field_name == 'body') {
