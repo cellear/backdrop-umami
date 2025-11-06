@@ -1,0 +1,8 @@
+type = module
+name = Umami Sample Content
+description = Sample recipes, articles, and images for the Backdrop Umami food magazine site.
+package = Recipes Content
+backdrop = 1.x
+dependencies[] = backdrop_umami_recipe
+dependencies[] = image
+dependencies[] = taxonomy

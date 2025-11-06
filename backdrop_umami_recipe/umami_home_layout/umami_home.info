@@ -1,0 +1,13 @@
+name = Umami Home
+description = Custom homepage layout for Umami theme with hero banner and featured content.
+version = 1.x
+backdrop = 1.x
+type = layout
+
+; Regions
+regions[header] = Header
+regions[content] = Content
+regions[footer] = Footer
+
+; Preview
+preview = umami-home-preview.png

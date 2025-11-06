@@ -1,0 +1,181 @@
+<?php
+/**
+ * @file
+ * Install, update and uninstall functions for Backdrop Umami Recipe.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function backdrop_umami_recipe_install() {
+  // Create taxonomy vocabularies
+  _backdrop_umami_recipe_create_vocabularies();
+
+  // Create content types and fields
+  _backdrop_umami_recipe_create_content_types();
+
+  // Copy theme files
+  _backdrop_umami_recipe_install_theme();
+
+  // Copy layout files
+  _backdrop_umami_recipe_install_layout();
+
+  backdrop_set_message(t('Backdrop Umami Recipe has been installed. The Umami content types, fields, and theme are now available. To add sample content, enable the "Umami Sample Content" module.'));
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function backdrop_umami_recipe_uninstall() {
+  // Content types are removed automatically by Backdrop
+  // Vocabularies are removed automatically
+  backdrop_set_message(t('Backdrop Umami Recipe has been uninstalled.'));
+}
+
+/**
+ * Create taxonomy vocabularies.
+ */
+function _backdrop_umami_recipe_create_vocabularies() {
+  // Tags vocabulary
+  $tags_vocab = new TaxonomyVocabulary(array(
+    'name' => 'Tags',
+    'machine_name' => 'tags',
+    'description' => 'Use tags to group content on similar topics into categories.',
+    'module' => 'taxonomy',
+  ));
+  taxonomy_vocabulary_save($tags_vocab);
+
+  // Recipe Category vocabulary
+  $category_vocab = new TaxonomyVocabulary(array(
+    'name' => 'Recipe category',
+    'machine_name' => 'recipe_category',
+    'description' => 'Use recipe categories to group recipes.',
+    'module' => 'taxonomy',
+  ));
+  taxonomy_vocabulary_save($category_vocab);
+}
+
+/**
+ * Create content types and fields.
+ */
+function _backdrop_umami_recipe_create_content_types() {
+  $module_path = backdrop_get_path('module', 'backdrop_umami_recipe');
+  $config_path = $module_path . '/config';
+
+  // Get all JSON config files
+  $config_files = file_scan_directory($config_path, '/\.json$/');
+
+  foreach ($config_files as $file) {
+    $config_data = json_decode(file_get_contents($file->uri), TRUE);
+
+    if (!$config_data) {
+      continue;
+    }
+
+    // Determine config type from filename
+    $filename = $file->name;
+
+    // Node types
+    if (strpos($filename, 'node.type.') === 0) {
+      _backdrop_umami_recipe_create_node_type($config_data);
+    }
+    // Fields
+    elseif (strpos($filename, 'field.field.') === 0) {
+      _backdrop_umami_recipe_create_field($config_data);
+    }
+    // Field instances
+    elseif (strpos($filename, 'field.instance.') === 0) {
+      _backdrop_umami_recipe_create_field_instance($config_data);
+    }
+  }
+
+  // Clear caches
+  field_cache_clear();
+}
+
+/**
+ * Create a node type from config.
+ */
+function _backdrop_umami_recipe_create_node_type($config) {
+  if (!node_type_load($config['type'])) {
+    $type = node_type_set_defaults($config);
+    node_type_save($type);
+  }
+}
+
+/**
+ * Create a field from config.
+ */
+function _backdrop_umami_recipe_create_field($config) {
+  if (!field_info_field($config['field_name'])) {
+    field_create_field($config);
+  }
+}
+
+/**
+ * Create a field instance from config.
+ */
+function _backdrop_umami_recipe_create_field_instance($config) {
+  $field_name = $config['field_name'];
+  $entity_type = $config['entity_type'];
+  $bundle = $config['bundle'];
+
+  if (!field_info_instance($entity_type, $field_name, $bundle)) {
+    field_create_instance($config);
+  }
+}
+
+/**
+ * Install the Umami theme.
+ */
+function _backdrop_umami_recipe_install_theme() {
+  $module_path = backdrop_get_path('module', 'backdrop_umami_recipe');
+  $theme_source = $module_path . '/umami_theme';
+  $theme_dest = 'themes/umami';
+
+  // Copy theme directory
+  if (is_dir($theme_source) && !is_dir($theme_dest)) {
+    _backdrop_umami_recipe_copy_directory($theme_source, $theme_dest);
+    backdrop_set_message(t('Umami theme has been copied to themes/umami. You can enable it at admin/appearance.'));
+  }
+}
+
+/**
+ * Install the Umami Home layout.
+ */
+function _backdrop_umami_recipe_install_layout() {
+  $module_path = backdrop_get_path('module', 'backdrop_umami_recipe');
+  $layout_source = $module_path . '/umami_home_layout';
+  $layout_dest = 'layouts/umami_home';
+
+  // Copy layout directory
+  if (is_dir($layout_source) && !is_dir($layout_dest)) {
+    _backdrop_umami_recipe_copy_directory($layout_source, $layout_dest);
+    backdrop_set_message(t('Umami Home layout has been copied to layouts/umami_home.'));
+  }
+}
+
+/**
+ * Recursively copy a directory.
+ */
+function _backdrop_umami_recipe_copy_directory($source, $dest) {
+  if (!is_dir($dest)) {
+    backdrop_mkdir($dest, NULL, TRUE);
+  }
+
+  $dir = opendir($source);
+  while (($file = readdir($dir)) !== FALSE) {
+    if ($file != '.' && $file != '..') {
+      $src_file = $source . '/' . $file;
+      $dest_file = $dest . '/' . $file;
+
+      if (is_dir($src_file)) {
+        _backdrop_umami_recipe_copy_directory($src_file, $dest_file);
+      }
+      else {
+        copy($src_file, $dest_file);
+      }
+    }
+  }
+  closedir($dir);
+}

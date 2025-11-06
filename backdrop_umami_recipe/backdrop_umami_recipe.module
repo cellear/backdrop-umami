@@ -1,0 +1,11 @@
+<?php
+/**
+ * @file
+ * Backdrop Umami Recipe module.
+ *
+ * Provides the structure for an Umami food magazine site including:
+ * - Content types: Recipe, Article, Page
+ * - Taxonomy vocabularies: Tags, Recipe Categories
+ * - Fields and field instances
+ * - Custom homepage layout
+ */

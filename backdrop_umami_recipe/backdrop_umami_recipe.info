@@ -1,0 +1,12 @@
+type = module
+name = Backdrop Umami Recipe
+description = A recipe that provides the Umami food magazine content types, fields, views, and theme.
+package = Recipes
+backdrop = 1.x
+dependencies[] = system (>= 1.20.0)
+dependencies[] = field
+dependencies[] = image
+dependencies[] = taxonomy
+dependencies[] = node
+dependencies[] = layout
+tags[] = Recipe

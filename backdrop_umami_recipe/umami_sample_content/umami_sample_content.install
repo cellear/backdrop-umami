@@ -1,0 +1,215 @@
+<?php
+/**
+ * @file
+ * Install file for Umami Sample Content module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function umami_sample_content_install() {
+  $module_path = backdrop_get_path('module', 'umami_sample_content');
+
+  // 1. Import taxonomy terms
+  _umami_sample_content_import_taxonomy_terms($module_path);
+
+  // 2. Copy image files
+  $files = _umami_sample_content_copy_images($module_path);
+
+  // 3. Import content nodes
+  _umami_sample_content_import_nodes($module_path, $files);
+
+  backdrop_set_message(t('Umami sample content has been imported! Visit the homepage to see featured recipes and articles.'));
+}
+
+/**
+ * Import taxonomy terms from JSON.
+ */
+function _umami_sample_content_import_taxonomy_terms($module_path) {
+  $terms_file = $module_path . '/data/taxonomy_terms.json';
+
+  if (!file_exists($terms_file)) {
+    return;
+  }
+
+  $terms_data = json_decode(file_get_contents($terms_file), TRUE);
+
+  foreach ($terms_data as $term_data) {
+    $term = entity_create('taxonomy_term', array(
+      'vocabulary' => $term_data['vocabulary'],
+      'name' => $term_data['name'],
+      'description' => $term_data['description'] ?? '',
+      'weight' => $term_data['weight'] ?? 0,
+    ));
+    taxonomy_term_save($term);
+  }
+}
+
+/**
+ * Copy image files from module directory to public files.
+ */
+function _umami_sample_content_copy_images($module_path) {
+  $files = array();
+  $media_files_path = $module_path . '/data/media_files.json';
+
+  if (!file_exists($media_files_path)) {
+    return $files;
+  }
+
+  $media_files = json_decode(file_get_contents($media_files_path), TRUE);
+
+  foreach ($media_files as $media) {
+    if (!isset($media['file'])) {
+      continue;
+    }
+
+    $file_info = $media['file'];
+    $source = $module_path . '/images/' . $file_info['filename'];
+    $destination = 'public://' . $file_info['filename'];
+
+    // Copy file if it exists in module directory
+    if (file_exists($source)) {
+      $file = file_copy($source, $destination, FILE_EXISTS_REPLACE);
+      if ($file) {
+        $files[$media['mid']] = $file;
+      }
+    }
+    else {
+      // Create placeholder file record even if image doesn't exist
+      $file = new stdClass();
+      $file->uid = 1;
+      $file->filename = $file_info['filename'];
+      $file->uri = $destination;
+      $file->filemime = $file_info['filemime'];
+      $file->filesize = 0;
+      $file->status = FILE_STATUS_PERMANENT;
+      $file->timestamp = REQUEST_TIME;
+
+      backdrop_write_record('file_managed', $file);
+      $files[$media['mid']] = $file;
+    }
+  }
+
+  return $files;
+}
+
+/**
+ * Import content nodes from JSON.
+ */
+function _umami_sample_content_import_nodes($module_path, $files) {
+  $nodes_file = $module_path . '/data/nodes.json';
+  $media_files_file = $module_path . '/data/media_files.json';
+
+  if (!file_exists($nodes_file)) {
+    return;
+  }
+
+  // Load media file mappings
+  $media_mapping = array();
+  if (file_exists($media_files_file)) {
+    $media_files = json_decode(file_get_contents($media_files_file), TRUE);
+    foreach ($media_files as $media) {
+      $media_mapping[$media['mid']] = $media;
+    }
+  }
+
+  // Load nodes data
+  $nodes_data = json_decode(file_get_contents($nodes_file), TRUE);
+
+  foreach ($nodes_data as $node_data) {
+    $node = entity_create('node', array(
+      'type' => $node_data['type'],
+      'title' => $node_data['title'],
+      'language' => $node_data['langcode'] ?? LANGUAGE_NONE,
+      'uid' => 1,
+      'status' => $node_data['status'] ? 1 : 0,
+      'promote' => $node_data['promote'] ? 1 : 0,
+      'sticky' => $node_data['sticky'] ? 1 : 0,
+      'created' => $node_data['created'] ?? REQUEST_TIME,
+      'changed' => $node_data['changed'] ?? REQUEST_TIME,
+    ));
+
+    // Add fields
+    foreach ($node_data['fields'] as $field_name => $field_values) {
+      // Skip non-field data
+      if (in_array($field_name, array('path', 'moderation_state', 'content_translation_source', 'content_translation_outdated'))) {
+        continue;
+      }
+
+      // Handle field_media_image
+      if ($field_name == 'field_media_image' && !empty($field_values[0]['target_id'])) {
+        $media_id = $field_values[0]['target_id'];
+
+        if (isset($files[$media_id]) && isset($media_mapping[$media_id])) {
+          $media_info = $media_mapping[$media_id];
+          $node->{$field_name} = array(
+            LANGUAGE_NONE => array(
+              array(
+                'fid' => $files[$media_id]->fid,
+                'alt' => $media_info['alt'] ?: $node_data['title'],
+                'title' => $media_info['title'] ?: '',
+              ),
+            ),
+          );
+        }
+      }
+      // Handle body field
+      elseif ($field_name == 'body' || $field_name == 'field_body') {
+        if (isset($field_values[0])) {
+          $node->body = array(
+            LANGUAGE_NONE => array(
+              array(
+                'value' => $field_values[0]['value'] ?? '',
+                'summary' => $field_values[0]['summary'] ?? '',
+                'format' => 'filtered_html',
+              ),
+            ),
+          );
+        }
+      }
+      // Handle multi-value text fields
+      elseif ($field_name == 'field_ingredients' || $field_name == 'field_recipe_instruction') {
+        $node->{$field_name} = array(LANGUAGE_NONE => array());
+        foreach ($field_values as $field_value) {
+          $node->{$field_name}[LANGUAGE_NONE][] = array(
+            'value' => $field_value['value'],
+            'format' => 'filtered_html',
+          );
+        }
+      }
+      // Generic field handling
+      elseif (strpos($field_name, 'field_') === 0 && !empty($field_values)) {
+        $node->{$field_name} = array(LANGUAGE_NONE => array());
+        foreach ($field_values as $field_value) {
+          if (isset($field_value['value'])) {
+            $node->{$field_name}[LANGUAGE_NONE][] = array('value' => $field_value['value']);
+          }
+        }
+      }
+    }
+
+    // Save the node
+    node_save($node);
+  }
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function umami_sample_content_uninstall() {
+  // Delete all nodes of Umami content types
+  $types = array('recipe', 'article');
+  foreach ($types as $type) {
+    $query = new EntityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'node')
+      ->propertyCondition('type', $type)
+      ->execute();
+
+    if (isset($result['node'])) {
+      node_delete_multiple(array_keys($result['node']));
+    }
+  }
+
+  backdrop_set_message(t('Umami sample content has been removed.'));
+}

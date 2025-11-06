@@ -1,0 +1,72 @@
+name = Umami
+description = The theme used for the Umami food magazine demonstration site.
+type = theme
+backdrop = 1.x
+
+; CSS files - Base
+stylesheets[all][] = css/base.css
+
+; Layout
+stylesheets[all][] = css/layout/layout.css
+stylesheets[all][] = css/layout/layout-2-col.css
+stylesheets[all][] = css/homepage.css
+
+; Components - Blocks
+stylesheets[all][] = css/components/blocks/page-title/page-title.css
+stylesheets[all][] = css/components/blocks/search/search.css
+
+; Components - Content
+stylesheets[all][] = css/components/content/node.css
+stylesheets[all][] = css/components/content/full/node-full.css
+stylesheets[all][] = css/components/content-types/recipe/recipe.css
+
+; Components - Fields
+stylesheets[all][] = css/components/fields/field.css
+stylesheets[all][] = css/components/fields/ingredients.css
+stylesheets[all][] = css/components/fields/recipe-instruction.css
+stylesheets[all][] = css/components/fields/summary.css
+
+; Components - Forms
+stylesheets[all][] = css/components/forms/form.css
+stylesheets[all][] = css/components/forms/form-items.css
+stylesheets[all][] = css/components/forms/buttons.css
+
+; Components - Messages
+stylesheets[all][] = css/components/messages/messages.css
+
+; Components - Navigation
+stylesheets[all][] = css/components/navigation/breadcrumbs/breadcrumbs.css
+stylesheets[all][] = css/components/navigation/menu-main/menu-main.css
+stylesheets[all][] = css/components/navigation/menu-footer/menu-footer.css
+stylesheets[all][] = css/components/navigation/menu-account/menu-account.css
+stylesheets[all][] = css/components/navigation/tabs/tabs.css
+
+; Components - Regions
+stylesheets[all][] = css/components/regions/header/header.css
+stylesheets[all][] = css/components/regions/footer/footer.css
+stylesheets[all][] = css/components/regions/highlighted/highlighted.css
+
+; Components - Views
+stylesheets[all][] = css/components/views/frontpage.css
+stylesheets[all][] = css/components/views/promoted-items.css
+
+; Classy base styles
+stylesheets[all][] = css/classy/components/button.css
+stylesheets[all][] = css/classy/components/breadcrumb.css
+stylesheets[all][] = css/classy/components/links.css
+stylesheets[all][] = css/classy/components/menu.css
+stylesheets[all][] = css/classy/components/node.css
+stylesheets[all][] = css/classy/components/pager.css
+
+; JavaScript files
+scripts[] = js/umami.js
+
+; Regions
+regions[header] = Header
+regions[highlighted] = Highlighted
+regions[help] = Help
+regions[content] = Content
+regions[sidebar] = Sidebar
+regions[footer] = Footer
+regions[page_top] = Page top
+regions[page_bottom] = Page bottom

@@ -1,0 +1,23 @@
+{
+  "type": "recipe",
+  "name": "Recipe",
+  "base": "node_content",
+  "description": "A recipe content type for sharing cooking instructions.",
+  "help": "",
+  "title_label": "Recipe name",
+  "settings": {
+    "status_default": 1,
+    "promote_enabled": 1,
+    "promote_default": 0,
+    "sticky_enabled": 0,
+    "sticky_default": 0,
+    "revision_enabled": 1,
+    "revision_default": 0,
+    "node_submitted": 1,
+    "node_user_picture": 1,
+    "comment_default": 0,
+    "menu_options": [],
+    "menu_parent": "main-menu:0"
+  },
+  "is_new": true
+}
