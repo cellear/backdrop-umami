@@ -16,19 +16,17 @@ foreach ($terms as $term) {
 $nodes_data = json_decode(file_get_contents(__DIR__ . '/nodes.json'), TRUE);
 
 foreach ($nodes_data as $node_data) {
-  $node = new stdClass();
-  $node->type = $node_data['type'];
-  $node->title = $node_data['title'];
-  $node->language = $node_data['langcode'];
-  $node->uid = 1; // Admin user
-  $node->status = $node_data['status'] ? 1 : 0;
-  $node->promote = $node_data['promote'] ? 1 : 0;
-  $node->sticky = $node_data['sticky'] ? 1 : 0;
-  $node->created = $node_data['created'];
-  $node->changed = $node_data['changed'];
-
-  // Prepare the node
-  node_object_prepare($node);
+  $node = entity_create('node', array(
+    'type' => $node_data['type'],
+    'title' => $node_data['title'],
+    'language' => $node_data['langcode'],
+    'uid' => 1, // Admin user
+    'status' => $node_data['status'] ? 1 : 0,
+    'promote' => $node_data['promote'] ? 1 : 0,
+    'sticky' => $node_data['sticky'] ? 1 : 0,
+    'created' => $node_data['created'],
+    'changed' => $node_data['changed'],
+  ));
 
   // Add fields
   foreach ($node_data['fields'] as $field_name => $field_values) {
