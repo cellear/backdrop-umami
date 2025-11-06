@@ -7,7 +7,10 @@
 use Drupal\Core\DrupalKernel;
 use Symfony\Component\HttpFoundation\Request;
 
-$autoloader = require_once 'autoload.php';
+// Change to the web directory where Drupal is installed
+chdir(__DIR__ . '/web');
+
+$autoloader = require_once __DIR__ . '/vendor/autoload.php';
 $kernel = DrupalKernel::createFromRequest(Request::createFromGlobals(), $autoloader, 'prod');
 $kernel->boot();
 $kernel->prepareLegacyRequest(Request::createFromGlobals());
