@@ -52,8 +52,57 @@ foreach ($nodes_data as $node_data) {
       }
     }
     elseif ($field_name == 'field_media_image') {
-      // Skip media images for now as requested by user
-      continue;
+      // Create placeholder file entries for images
+      // This will create broken image links that can be fixed by copying actual files
+      if (!empty($field_values[0]['target_id'])) {
+        $media_id = $field_values[0]['target_id'];
+
+        // Create a placeholder file record
+        $file = new stdClass();
+        $file->uid = 1;
+        $file->filename = "image-{$media_id}.jpg";
+        $file->uri = "public://umami-images/image-{$media_id}.jpg";
+        $file->filemime = 'image/jpeg';
+        $file->filesize = 0; // Placeholder
+        $file->status = FILE_STATUS_PERMANENT;
+        $file->timestamp = REQUEST_TIME;
+
+        // Check if file already exists
+        $existing = db_select('file_managed', 'f')
+          ->fields('f', array('fid'))
+          ->condition('uri', $file->uri)
+          ->execute()
+          ->fetchField();
+
+        if ($existing) {
+          $fid = $existing;
+        } else {
+          // Save the file record
+          $fid = db_insert('file_managed')
+            ->fields(array(
+              'uid' => $file->uid,
+              'filename' => $file->filename,
+              'uri' => $file->uri,
+              'filemime' => $file->filemime,
+              'filesize' => $file->filesize,
+              'status' => $file->status,
+              'timestamp' => $file->timestamp,
+            ))
+            ->execute();
+        }
+
+        // Attach to node
+        $node->{$field_name} = array(
+          LANGUAGE_NONE => array(
+            array(
+              'fid' => $fid,
+              'alt' => $node_data['title'], // Use node title as alt text
+              'title' => '',
+            ),
+          ),
+        );
+        echo "Added placeholder image for node {$node_data['title']} (media ID: {$media_id}, fid: {$fid})\n";
+      }
     }
     elseif ($field_name == 'body') {
       // Handle body field
