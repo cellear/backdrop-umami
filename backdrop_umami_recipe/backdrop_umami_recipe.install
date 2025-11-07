@@ -59,85 +59,286 @@ function _backdrop_umami_recipe_create_vocabularies() {
  * Create content types and fields.
  */
 function _backdrop_umami_recipe_create_content_types() {
-  $module_path = backdrop_get_path('module', 'backdrop_umami_recipe');
-  $config_path = $module_path . '/config';
-
-  // Get all JSON config files
-  $config_files = file_scan_directory($config_path, '/\.json$/');
-
-  foreach ($config_files as $file) {
-    $config_data = json_decode(file_get_contents($file->uri), TRUE);
-
-    if (!$config_data) {
-      continue;
-    }
-
-    // Determine config type from filename
-    $filename = $file->name;
-
-    // Node types
-    if (strpos($filename, 'node.type.') === 0) {
-      _backdrop_umami_recipe_create_node_type($config_data);
-    }
-    // Fields
-    elseif (strpos($filename, 'field.field.') === 0) {
-      _backdrop_umami_recipe_create_field($config_data);
-    }
-    // Field instances
-    elseif (strpos($filename, 'field.instance.') === 0) {
-      _backdrop_umami_recipe_create_field_instance($config_data);
-    }
-  }
+  // Import fields programmatically since we have many fields to create
+  _backdrop_umami_recipe_create_all_fields();
 
   // Clear caches
   field_cache_clear();
 }
 
 /**
- * Create a node type from config.
+ * Helper function to create field if it doesn't exist.
  */
-function _backdrop_umami_recipe_create_node_type($config) {
-  if (!node_type_load($config['type'])) {
-    // Ensure required properties are set
-    if (!isset($config['module'])) {
-      $config['module'] = 'node';
-    }
-    if (!isset($config['custom'])) {
-      $config['custom'] = 1;
-    }
-    if (!isset($config['modified'])) {
-      $config['modified'] = 1;
-    }
-    if (!isset($config['locked'])) {
-      $config['locked'] = 0;
-    }
-
-    $type = node_type_set_defaults($config);
-    node_type_save($type);
+function _backdrop_umami_create_field_if_not_exists($field_name, $field_config) {
+  if (!field_info_field($field_name)) {
+    field_create_field($field_config);
+    return TRUE;
   }
+  return FALSE;
 }
 
 /**
- * Create a field from config.
+ * Helper function to create field instance if it doesn't exist.
  */
-function _backdrop_umami_recipe_create_field($config) {
-  if (!field_info_field($config['field_name'])) {
-    field_create_field($config);
-  }
-}
-
-/**
- * Create a field instance from config.
- */
-function _backdrop_umami_recipe_create_field_instance($config) {
-  $field_name = $config['field_name'];
-  $entity_type = $config['entity_type'];
-  $bundle = $config['bundle'];
-
+function _backdrop_umami_create_instance_if_not_exists($entity_type, $bundle, $field_name, $instance_config) {
   if (!field_info_instance($entity_type, $field_name, $bundle)) {
-    field_create_instance($config);
+    field_create_instance($instance_config);
+    return TRUE;
   }
+  return FALSE;
 }
+
+/**
+ * Create all fields for Umami content types.
+ */
+function _backdrop_umami_recipe_create_all_fields() {
+  // Create body field (shared)
+  _backdrop_umami_create_field_if_not_exists('body', array(
+    'field_name' => 'body',
+    'type' => 'text_with_summary',
+    'entity_types' => array('node'),
+  ));
+
+  // Body on Article
+  _backdrop_umami_create_instance_if_not_exists('node', 'article', 'body', array(
+    'field_name' => 'body',
+    'entity_type' => 'node',
+    'bundle' => 'article',
+    'label' => 'Body',
+    'widget' => array('type' => 'text_textarea_with_summary'),
+    'display' => array(
+      'default' => array('label' => 'hidden', 'type' => 'text_default'),
+      'teaser' => array('label' => 'hidden', 'type' => 'text_summary_or_trimmed'),
+    ),
+  ));
+
+  // Create field_tags (taxonomy)
+  _backdrop_umami_create_field_if_not_exists('field_tags', array(
+    'field_name' => 'field_tags',
+    'type' => 'taxonomy_term_reference',
+    'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+    'settings' => array(
+      'allowed_values' => array(
+        array('vocabulary' => 'tags', 'parent' => 0),
+      ),
+    ),
+  ));
+
+  // Tags on Article
+  _backdrop_umami_create_instance_if_not_exists('node', 'article', 'field_tags', array(
+    'field_name' => 'field_tags',
+    'entity_type' => 'node',
+    'bundle' => 'article',
+    'label' => 'Tags',
+    'widget' => array('type' => 'taxonomy_autocomplete'),
+    'display' => array(
+      'default' => array('type' => 'taxonomy_term_reference_link', 'weight' => 10),
+    ),
+  ));
+
+  // Create field_media_image (image)
+  _backdrop_umami_create_field_if_not_exists('field_media_image', array(
+    'field_name' => 'field_media_image',
+    'type' => 'image',
+    'cardinality' => 1,
+  ));
+
+  // Image on Article
+  _backdrop_umami_create_instance_if_not_exists('node', 'article', 'field_media_image', array(
+    'field_name' => 'field_media_image',
+    'entity_type' => 'node',
+    'bundle' => 'article',
+    'label' => 'Image',
+    'widget' => array('type' => 'image_image'),
+    'display' => array(
+      'default' => array('label' => 'hidden', 'type' => 'image'),
+    ),
+  ));
+
+  // Tags on Recipe
+  _backdrop_umami_create_instance_if_not_exists('node', 'recipe', 'field_tags', array(
+    'field_name' => 'field_tags',
+    'entity_type' => 'node',
+    'bundle' => 'recipe',
+    'label' => 'Tags',
+    'widget' => array('type' => 'taxonomy_autocomplete'),
+    'display' => array(
+      'default' => array('type' => 'taxonomy_term_reference_link', 'weight' => 10),
+    ),
+  ));
+
+  // Create field_recipe_category (taxonomy)
+  _backdrop_umami_create_field_if_not_exists('field_recipe_category', array(
+    'field_name' => 'field_recipe_category',
+    'type' => 'taxonomy_term_reference',
+    'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+    'settings' => array(
+      'allowed_values' => array(
+        array('vocabulary' => 'recipe_category', 'parent' => 0),
+      ),
+    ),
+  ));
+
+  // Category on Recipe
+  _backdrop_umami_create_instance_if_not_exists('node', 'recipe', 'field_recipe_category', array(
+    'field_name' => 'field_recipe_category',
+    'entity_type' => 'node',
+    'bundle' => 'recipe',
+    'label' => 'Recipe category',
+    'widget' => array('type' => 'taxonomy_autocomplete'),
+    'display' => array(
+      'default' => array('type' => 'taxonomy_term_reference_link', 'weight' => 11),
+    ),
+  ));
+
+  // Image on Recipe
+  _backdrop_umami_create_instance_if_not_exists('node', 'recipe', 'field_media_image', array(
+    'field_name' => 'field_media_image',
+    'entity_type' => 'node',
+    'bundle' => 'recipe',
+    'label' => 'Image',
+    'widget' => array('type' => 'image_image'),
+    'display' => array(
+      'default' => array('label' => 'hidden', 'type' => 'image'),
+    ),
+  ));
+
+  // Create field_cooking_time
+  _backdrop_umami_create_field_if_not_exists('field_cooking_time', array(
+    'field_name' => 'field_cooking_time',
+    'type' => 'number_integer',
+    'cardinality' => 1,
+  ));
+
+  _backdrop_umami_create_instance_if_not_exists('node', 'recipe', 'field_cooking_time', array(
+    'field_name' => 'field_cooking_time',
+    'entity_type' => 'node',
+    'bundle' => 'recipe',
+    'label' => 'Cooking time',
+    'description' => 'Cooking time in minutes',
+    'widget' => array('type' => 'number'),
+    'display' => array(
+      'default' => array('label' => 'inline', 'type' => 'number_integer'),
+    ),
+  ));
+
+  // Create field_preparation_time
+  _backdrop_umami_create_field_if_not_exists('field_preparation_time', array(
+    'field_name' => 'field_preparation_time',
+    'type' => 'number_integer',
+    'cardinality' => 1,
+  ));
+
+  _backdrop_umami_create_instance_if_not_exists('node', 'recipe', 'field_preparation_time', array(
+    'field_name' => 'field_preparation_time',
+    'entity_type' => 'node',
+    'bundle' => 'recipe',
+    'label' => 'Preparation time',
+    'description' => 'Preparation time in minutes',
+    'widget' => array('type' => 'number'),
+    'display' => array(
+      'default' => array('label' => 'inline', 'type' => 'number_integer'),
+    ),
+  ));
+
+  // Create field_difficulty
+  _backdrop_umami_create_field_if_not_exists('field_difficulty', array(
+    'field_name' => 'field_difficulty',
+    'type' => 'list_text',
+    'cardinality' => 1,
+    'settings' => array(
+      'allowed_values' => array(
+        'easy' => 'Easy',
+        'medium' => 'Medium',
+        'hard' => 'Hard',
+      ),
+    ),
+  ));
+
+  _backdrop_umami_create_instance_if_not_exists('node', 'recipe', 'field_difficulty', array(
+    'field_name' => 'field_difficulty',
+    'entity_type' => 'node',
+    'bundle' => 'recipe',
+    'label' => 'Difficulty',
+    'widget' => array('type' => 'options_select'),
+    'display' => array(
+      'default' => array('label' => 'inline', 'type' => 'list_default'),
+    ),
+  ));
+
+  // Create field_number_of_servings
+  _backdrop_umami_create_field_if_not_exists('field_number_of_servings', array(
+    'field_name' => 'field_number_of_servings',
+    'type' => 'number_integer',
+    'cardinality' => 1,
+  ));
+
+  _backdrop_umami_create_instance_if_not_exists('node', 'recipe', 'field_number_of_servings', array(
+    'field_name' => 'field_number_of_servings',
+    'entity_type' => 'node',
+    'bundle' => 'recipe',
+    'label' => 'Number of servings',
+    'widget' => array('type' => 'number'),
+    'display' => array(
+      'default' => array('label' => 'inline', 'type' => 'number_integer'),
+    ),
+  ));
+
+  // Create field_summary
+  _backdrop_umami_create_field_if_not_exists('field_summary', array(
+    'field_name' => 'field_summary',
+    'type' => 'text_long',
+    'cardinality' => 1,
+  ));
+
+  _backdrop_umami_create_instance_if_not_exists('node', 'recipe', 'field_summary', array(
+    'field_name' => 'field_summary',
+    'entity_type' => 'node',
+    'bundle' => 'recipe',
+    'label' => 'Summary',
+    'widget' => array('type' => 'text_textarea'),
+    'display' => array(
+      'default' => array('label' => 'hidden', 'type' => 'text_default'),
+    ),
+  ));
+
+  // Create field_ingredients (multi-value text)
+  _backdrop_umami_create_field_if_not_exists('field_ingredients', array(
+    'field_name' => 'field_ingredients',
+    'type' => 'text_long',
+    'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+  ));
+
+  _backdrop_umami_create_instance_if_not_exists('node', 'recipe', 'field_ingredients', array(
+    'field_name' => 'field_ingredients',
+    'entity_type' => 'node',
+    'bundle' => 'recipe',
+    'label' => 'Ingredients',
+    'widget' => array('type' => 'text_textarea'),
+    'display' => array(
+      'default' => array('label' => 'above', 'type' => 'text_default'),
+    ),
+  ));
+
+  // Create field_recipe_instruction (multi-value text)
+  _backdrop_umami_create_field_if_not_exists('field_recipe_instruction', array(
+    'field_name' => 'field_recipe_instruction',
+    'type' => 'text_long',
+    'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+  ));
+
+  _backdrop_umami_create_instance_if_not_exists('node', 'recipe', 'field_recipe_instruction', array(
+    'field_name' => 'field_recipe_instruction',
+    'entity_type' => 'node',
+    'bundle' => 'recipe',
+    'label' => 'Recipe instruction',
+    'widget' => array('type' => 'text_textarea'),
+    'display' => array(
+      'default' => array('label' => 'above', 'type' => 'text_default'),
+    ),
+  ));
+}
+
 
 /**
  * Install the Umami theme.
