@@ -2,9 +2,13 @@
   "type": "recipe",
   "name": "Recipe",
   "base": "node_content",
+  "module": "node",
   "description": "A recipe content type for sharing cooking instructions.",
   "help": "",
   "title_label": "Recipe name",
+  "custom": 1,
+  "modified": 1,
+  "locked": 0,
   "settings": {
     "status_default": 1,
     "promote_enabled": 1,

@@ -73,6 +73,14 @@ function _umami_sample_content_copy_images($module_path) {
     $source = $module_path . '/images/' . $file_info['filename'];
     $destination = 'public://' . $file_info['filename'];
 
+    // Check if file already exists in database
+    $existing_files = file_load_multiple(array(), array('uri' => $destination));
+    if (!empty($existing_files)) {
+      $file = reset($existing_files);
+      $files[$media['mid']] = $file;
+      continue;
+    }
+
     // Copy file if it exists in module directory
     if (file_exists($source)) {
       $file = file_copy($source, $destination, FILE_EXISTS_REPLACE);
