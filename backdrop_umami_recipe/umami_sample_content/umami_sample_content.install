@@ -35,8 +35,14 @@ function _umami_sample_content_import_taxonomy_terms($module_path) {
   $terms_data = json_decode(file_get_contents($terms_file), TRUE);
 
   foreach ($terms_data as $term_data) {
+    // Skip if term already exists
+    $existing = taxonomy_term_load_multiple_by_name($term_data['name'], $term_data['vid']);
+    if (!empty($existing)) {
+      continue;
+    }
+
     $term = entity_create('taxonomy_term', array(
-      'vocabulary' => $term_data['vocabulary'],
+      'vocabulary' => $term_data['vid'], // Use 'vid' from JSON as vocabulary machine name
       'name' => $term_data['name'],
       'description' => $term_data['description'] ?? '',
       'weight' => $term_data['weight'] ?? 0,

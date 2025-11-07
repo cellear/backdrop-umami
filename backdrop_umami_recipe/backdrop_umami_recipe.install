@@ -98,6 +98,20 @@ function _backdrop_umami_recipe_create_content_types() {
  */
 function _backdrop_umami_recipe_create_node_type($config) {
   if (!node_type_load($config['type'])) {
+    // Ensure required properties are set
+    if (!isset($config['module'])) {
+      $config['module'] = 'node';
+    }
+    if (!isset($config['custom'])) {
+      $config['custom'] = 1;
+    }
+    if (!isset($config['modified'])) {
+      $config['modified'] = 1;
+    }
+    if (!isset($config['locked'])) {
+      $config['locked'] = 0;
+    }
+
     $type = node_type_set_defaults($config);
     node_type_save($type);
   }
