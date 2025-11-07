@@ -83,7 +83,12 @@ function _umami_sample_content_copy_images($module_path) {
 
     // Copy file if it exists in module directory
     if (file_exists($source)) {
-      $file = file_copy($source, $destination, FILE_EXISTS_REPLACE);
+      // Read the file data
+      $data = file_get_contents($source);
+
+      // Save it using Backdrop's file API
+      $file = file_save_data($data, $destination, FILE_EXISTS_REPLACE);
+
       if ($file) {
         $files[$media['mid']] = $file;
       }
